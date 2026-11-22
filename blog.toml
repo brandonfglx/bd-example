@@ -1,0 +1,8 @@
+title = "My Blog"
+description = "Auto-generated blog by bd"
+author = "User"
+language = "en"
+
+[build]
+output = "build"
+include_drafts = false

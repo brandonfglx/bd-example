@@ -1,0 +1,52 @@
+name: Deploy blog
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/configure-pages@v6
+      - name: Install bd
+        env:
+          BD_REPO: "brandonfglx/bd"
+          BD_VERSION: "0.0.1"
+        run: |
+          set -euo pipefail
+          url="https://github.com/${BD_REPO}/releases/download/v${BD_VERSION}/bd-x86_64-unknown-linux-gnu.tar.gz"
+          curl -fsSL "$url" -o "$RUNNER_TEMP/bd.tar.gz"
+          tar -xzf "$RUNNER_TEMP/bd.tar.gz" -C "$RUNNER_TEMP"
+          chmod +x "$RUNNER_TEMP/bd"
+          "$RUNNER_TEMP/bd" --version
+
+      - name: Build
+        run: |
+          "$RUNNER_TEMP/bd" build
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5
