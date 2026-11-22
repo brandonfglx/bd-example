@@ -1,6 +1,6 @@
-title = "My Blog"
-description = "Auto-generated blog by bd"
-author = "User"
+title = "bd-example"
+description = "An example blog made using bd."
+author = "brandonfglx"
 language = "en"
 
 [build]
