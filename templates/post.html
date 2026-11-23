@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ post.title }} &mdash; {{ blog.title }}{% endblock %}
+{% block title %}{{ post.title }} - {{ blog.title }}{% endblock %}
 
 {% block description %}{% if post.description %}<meta name="description" content="{{ post.description }}">{% endif %}{% endblock %}
 
@@ -10,7 +10,7 @@
 		<h1>{{ post.title }}</h1>
 		<p class="post-meta">
 			<time datetime="{{ post.date }}">{{ post.date_display }}</time>
-			{% if post.draft %}<span class="draft">&middot; <strong>draft</strong></span>{% endif %}
+			{% if post.draft %}<span class="draft"><strong>Draft</strong></span>{% endif %}
 		</p>
 		{% if post.description %}
 		<p class="description">{{ post.description }}</p>
