@@ -10,7 +10,17 @@
 </head>
 <body>
 	<header>
-		<a href="{{ home_url|safe }}">{{ blog.title }}</a>
+		<div class="site-header">
+			<a class="site-title" href="{{ home_url|safe }}">{{ blog.title }}</a>
+			<nav class="site-nav" aria-label="Site">
+				{% if has_tags %}<a href="{{ tags_url|safe }}">Tags</a>{% endif %}
+				{% if has_about %}<a href="{{ about_url|safe }}">About</a>{% endif %}
+				<form class="search" role="search" data-index="{{ static_root }}search.json" data-home="{{ home_url|safe }}" hidden>
+					<input type="search" name="q" placeholder="Search posts" aria-label="Search posts" aria-controls="search-results" aria-expanded="false" autocomplete="off" spellcheck="false">
+					<ul class="search-results" id="search-results" role="listbox" hidden></ul>
+				</form>
+			</nav>
+		</div>
 	</header>
 	<main>
 		{% block content %}{% endblock %}
@@ -20,5 +30,136 @@
 		<p>&copy; {{ year }} {{ blog.author }}</p>
 	</footer>
 	{% endif %}
+
+	<script>
+		(() => {
+			const form = document.querySelector(".search");
+			if (!form) {
+				return;
+			}
+
+			const input = form.querySelector("input[type=search]");
+			const results = form.querySelector(".search-results");
+			if (!input || !results) {
+				return;
+			}
+
+			form.hidden = false;
+			const home = form.dataset.home || "./";
+			let postsPromise;
+			let active = -1;
+
+			const load = () => {
+				if (!postsPromise) {
+					postsPromise = fetch(form.dataset.index || "search.json")
+						.then((resp) => resp.ok ? resp.json() : { posts: [] })
+						.then((data) => Array.isArray(data.posts) ? data.posts : [])
+						.catch(() => []);
+				}
+
+				return postsPromise;
+			};
+
+			const close = () => {
+				results.hidden = true;
+				results.replaceChildren();
+				input.setAttribute("aria-expanded", "false");
+				active = -1;
+			};
+
+			const render = (matches) => {
+				results.replaceChildren();
+				active = -1;
+
+				if (matches.length === 0) {
+					const empty = document.createElement("li");
+					empty.className = "empty";
+					empty.textContent = "No posts found";
+					results.append(empty);
+				} else {
+					for (const post of matches.slice(0, 8)) {
+						const item = document.createElement("li");
+						
+						const link = document.createElement("a");
+						link.href = `${home}${post.slug}/`;
+						link.setAttribute("role", "option");
+						link.textContent = post.title;
+
+						const meta = document.createElement("span");
+						meta.className = "result-meta";
+						meta.textContent = post.date_display || post.date || "";
+						link.append(meta);
+						item.append(link);
+						results.append(item);
+					}
+				}
+
+				results.hidden = false;
+				input.setAttribute("aria-expanded", "true");
+			};
+
+			const search = async () => {
+				const query = input.value.trim().toLocaleLowerCase();
+				if (!query) {
+					close();
+					return;
+				}
+
+				const terms = query.split(/\s+/).filter(Boolean);
+				const posts = await load();
+				const matches = posts.filter((post) => {
+					const tags = Array.isArray(post.tags) ? post.tags.map((tag) => tag.name).join(" ") : "";
+					const total = [post.title, post.description, tags].filter(Boolean).join(" ").toLocaleLowerCase();
+					return terms.every((term) => total.includes(term));
+				});
+				render(matches);
+			};
+
+			const links = () => Array.from(results.querySelectorAll("a"));
+
+			const select = (delta) => {
+				const items = links();
+				if (items.length === 0) {
+					return;
+				}
+
+				active = active < 0 ? (delta > 0 ? 0 : items.length - 1) : (active + delta + items.length) % items.length;
+
+				items.forEach((link, index) => {
+					link.setAttribute("aria-selected", index === active ? "true" : "false");
+				});
+				items[active].scrollIntoView({ block: "nearest" });
+			};
+
+			input.addEventListener("focus", load);
+			input.addEventListener("input", search);
+			input.addEventListener("keydown", (event) => {
+				if (event.key === "Escape") {
+					close();
+					input.blur();
+				} else if (event.key === "ArrowDown") {
+					event.preventDefault();
+					select(1);
+				} else if (event.key === "ArrowUp") {
+					event.preventDefault();
+					select(-1);
+				} else if (event.key === "Enter" && active >= 0) {
+					event.preventDefault();
+					links()[active]?.click();
+				}
+			});
+
+			form.addEventListener("submit", (event) => {
+				event.preventDefault();
+				links()[0]?.click();
+			});
+
+			document.addEventListener("click", (event) => {
+				if (!form.contains(event.target)) {
+					close();
+				}
+			});
+		})();
+	</script>
 </body>
 </html>
