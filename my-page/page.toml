@@ -1,5 +1,5 @@
-title = "Examples"
-description = "Markdown examples"
-date = "2026-11-22"
+title = "My First Page"
+description = "My first post."
+date = "2026-11-25"
 draft = false
 content = "page.md"
