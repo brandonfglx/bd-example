@@ -28,7 +28,7 @@ body {
 	padding: 2rem 1.25rem 4rem;
 	background: var(--background);
 	color: var(--foreground);
-	font: 1.05rem/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+	font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 body > header {
@@ -274,4 +274,43 @@ footer {
 	border-top: 2px solid var(--border);
 	color: var(--secondary);
 	font-size: 0.95rem;
+}
+
+.footer-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: 1rem;
+}
+
+.footer-links a {
+	display: inline-block;
+	padding: 0;
+	color: var(--secondary);
+	text-decoration: none;
+	font-size: 1rem;
+}
+
+.not-found-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	text-align: center;
+}
+
+.not-found-banner {
+	font-weight: bold;
+	font-size: 12rem;
+	margin: 0;
+}
+
+.not-found-desc {
+	font-size: 1.5rem;
+	margin-bottom: 0;
+}
+
+.not-found-return {
+	font-size: 1.5rem;
+	margin-top: 0;
+	text-decoration: none;
 }

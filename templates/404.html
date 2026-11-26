@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}404 Not found - {{ blog.title }}{% endblock %}
+{% block description %}<meta name="robots" content="noindex">{% endblock %}
+
+{% block content %}
+<article class="not-found-container">
+	<h1 class="not-found-banner">404</h1>
+	<p class="not-found-desc">Page not found</p>
+	<p class="not-found-return"><a href="{{ home_url|safe }}">Back to home</a></p>
+</article>
+{% endblock %}

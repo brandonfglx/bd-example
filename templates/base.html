@@ -7,6 +7,7 @@
 	<title>{% block title %}{{ blog.title }}{% endblock %}</title>
 	{% block description %}{% if blog.description %}<meta name="description" content="{{ blog.description }}">{% endif %}{% endblock %}
 	<link rel="stylesheet" href="{{ static_root }}style.css">
+	{% if favicon_url %}<link rel="icon" href="{{ favicon_url }}">{% endif %}
 </head>
 <body>
 	<header>
@@ -25,9 +26,18 @@
 	<main>
 		{% block content %}{% endblock %}
 	</main>
-	{% if blog.author %}
+	{% if blog.author or blog.footer %}
 	<footer>
+		{% if blog.author %}
 		<p>&copy; {{ year }} {{ blog.author }}</p>
+		{% endif %}
+		{% if blog.footer %}
+		<nav class="footer-links" aria-label="Footer links">
+			{% for link in blog.footer %}
+			<a href="{{ link.url|safe }}">{{ link.title }}</a>
+			{% endfor %}
+		</nav>
+		{% endif %}
 	</footer>
 	{% endif %}
 
