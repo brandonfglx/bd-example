@@ -1,16 +1,12 @@
 title = "Default Blog"
 description = "Auto-generated blog by bd"
-author = "brandonfglx"
+author = "User"
 language = "en"
-favicon = "https://avatars.githubusercontent.com/u/173737496"
-
-[[footer]]
-title = "Website"
-url = "https://brandonfglx.github.io"
-
-[[footer]]
-title = "GitHub"
-url = "https://github.com/brandonfglx"
+favicon = ""
+css = "tailwind"
+footer = [
+	{ title = "GitHub", url = "https://github.com/brandonfglx" }
+]
 
 [build]
 output = "build"

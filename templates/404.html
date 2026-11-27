@@ -4,9 +4,17 @@
 {% block description %}<meta name="robots" content="noindex">{% endblock %}
 
 {% block content %}
+{% if tailwind %}
+<article class="flex w-full flex-col text-center">
+	<h1 class="m-0 text-8xl font-bold sm:text-[12rem]">404</h1>
+	<p class="mb-0 text-2xl">Page not found</p>
+	<p class="mt-0 text-2xl"><a class="underline" href="{{ home_url|safe }}">Back to home</a></p>
+</article>
+{% else %}
 <article class="not-found-container">
 	<h1 class="not-found-banner">404</h1>
 	<p class="not-found-desc">Page not found</p>
 	<p class="not-found-return"><a href="{{ home_url|safe }}">Back to home</a></p>
 </article>
+{% endif %}
 {% endblock %}

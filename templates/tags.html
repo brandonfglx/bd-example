@@ -3,6 +3,25 @@
 {% block title %}Tags - {{ blog.title }}{% endblock %}
 
 {% block content %}
+{% if tailwind %}
+<header class="mb-10">
+	<h1 class="text-4xl font-bold tracking-tight">Tags</h1>
+	<p class="mt-2 text-lg text-neutral-600 dark:text-neutral-300">{{ tags|length }} tag{% if tags|length != 1 %}s{% endif %}</p>
+</header>
+
+{% if tags %}
+<ul class="flex list-none flex-wrap gap-2 p-0">
+	{% for tag in tags %}
+	<li class="flex items-baseline gap-1">
+		<a class="inline-block rounded-full border border-neutral-400 px-2 py-0.5 text-sm no-underline" href="{{ tag.slug }}/">{{ tag.name }}</a>
+		<span class="text-xs text-neutral-500 dark:text-neutral-400">{{ tag.count }}</span>
+	</li>
+	{% endfor %}
+</ul>
+{% else %}
+<p>No tags yet.</p>
+{% endif %}
+{% else %}
 <header class="page-header">
 	<h1>Tags</h1>
 	<p class="description">{{ tags|length }} tag{% if tags|length != 1 %}s{% endif %}</p>
@@ -19,5 +38,6 @@
 </ul>
 {% else %}
 <p>No tags yet.</p>
+{% endif %}
 {% endif %}
 {% endblock %}
