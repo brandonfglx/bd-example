@@ -2,7 +2,7 @@ title = "Default Blog"
 description = "Auto-generated blog by bd"
 author = "User"
 language = "en"
-favicon = ""
+favicon = "https://avatars.githubusercontent.com/u/173737496"
 css = "tailwind"
 footer = [
 	{ title = "GitHub", url = "https://github.com/brandonfglx" }
