@@ -3,4 +3,5 @@ description = ""
 date = "2026-11-25"
 draft = false
 tags = ["demo"]
+image = "img.jpg"
 content = "page.md"

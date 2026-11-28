@@ -6,8 +6,157 @@
 	<meta name="color-scheme" content="light dark">
 	<title>{% block title %}{{ blog.title }}{% endblock %}</title>
 	{% block description %}{% if blog.description %}<meta name="description" content="{{ blog.description }}">{% endif %}{% endblock %}
-	{% if tailwind %}
+		{% if tailwind %}
 	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+	<style>
+		.content {
+			line-height: 1.7;
+			overflow-wrap: break-word;
+		}
+
+		.content > :first-child {
+			margin-top: 0;
+		}
+
+		.content > :last-child {
+			margin-bottom: 0;
+		}
+
+		.content p,
+		.content ul,
+		.content ol,
+		.content blockquote,
+		.content pre,
+		.content table,
+		.content hr {
+			margin: 1rem 0;
+		}
+
+		.content h1,
+		.content h2,
+		.content h3,
+		.content h4,
+		.content h5,
+		.content h6 {
+			margin: 1.75rem 0 0.75rem;
+			font-weight: 700;
+			line-height: 1.25;
+		}
+
+		.content h1 {
+			font-size: 2rem;
+		}
+
+		.content h2 {
+			font-size: 1.5rem;
+		}
+
+		.content h3 {
+			font-size: 1.25rem;
+		}
+
+		.content h4 {
+			font-size: 1.125rem;
+		}
+
+		.content h5 {
+			font-size: 1rem;
+		}
+
+		.content h6 {
+			font-size: 0.875rem;
+			letter-spacing: 0.05em;
+			text-transform: uppercase;
+		}
+
+		.content ul {
+			padding-left: 1.5rem;
+			list-style: disc;
+		}
+
+		.content ol {
+			padding-left: 1.5rem;
+			list-style: decimal;
+		}
+
+		.content li {
+			margin: 0.25rem 0;
+		}
+
+		.content li > ul,
+		.content li > ol {
+			margin: 0.25rem 0;
+		}
+
+		.content blockquote {
+			padding-left: 1rem;
+			border-left: 3px solid rgba(127, 127, 127, 0.4);
+		}
+
+		.content a {
+			text-decoration: underline;
+			text-underline-offset: 2px;
+		}
+
+		.content code {
+			padding: 0.15em 0.35em;
+			border-radius: 0.25rem;
+			background: rgba(127, 127, 127, 0.15);
+			font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+			font-size: 0.9em;
+		}
+
+		.content pre {
+			overflow-x: auto;
+			padding: 1rem;
+			border-radius: 0.5rem;
+			background: rgba(127, 127, 127, 0.12);
+		}
+
+		.content pre code {
+			padding: 0;
+			background: transparent;
+			font-size: inherit;
+		}
+
+		.content table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		.content th,
+		.content td {
+			padding: 0.5rem 0.75rem;
+			border: 1px solid rgba(127, 127, 127, 0.35);
+			text-align: left;
+		}
+
+		.content th {
+			background: rgba(127, 127, 127, 0.08);
+			font-weight: 600;
+		}
+
+		.content hr {
+			border: 0;
+			border-top: 1px solid rgba(127, 127, 127, 0.35);
+		}
+
+		.content img,
+		.content video {
+			max-width: 100%;
+			height: auto;
+		}
+
+		.content summary {
+			cursor: pointer;
+			font-weight: 600;
+		}
+
+		.content input[type="checkbox"] {
+			margin-right: 0.35rem;
+			vertical-align: middle;
+		}
+	</style>
 	{% else %}
 	<link rel="stylesheet" href="{{ static_root }}style.css">
 	{% endif %}
