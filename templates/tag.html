@@ -13,6 +13,9 @@
 <ul class="grid list-none gap-10 p-0">
 	{% for post in posts %}
 	<li>
+		{% if post.image and blog.template != "classic" %}
+		<a href="{{ home_url }}{{ post.slug }}/"><img class="mb-4 aspect-video w-full rounded object-cover" src="{{ post.image|asset_url('../../' ~ post.slug ~ '/') }}" alt=""></a>
+		{% endif %}
 		<h2 class="text-2xl font-semibold"><a class="no-underline hover:underline" href="{{ home_url }}{{ post.slug }}/">{{ post.title }}</a></h2>
 		<p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">
 			<time datetime="{{ post.date }}">{{ post.date_display }}</time>
@@ -45,12 +48,15 @@
 <ul class="post-list">
 	{% for post in posts %}
 	<li>
+		{% if post.image and blog.template != "classic" %}
+		<a href="{{ home_url }}{{ post.slug }}/"><img class="cover" src="{{ post.image|asset_url('../../' ~ post.slug ~ '/') }}" alt=""></a>
+		{% endif %}
 		<h2><a href="{{ home_url }}{{ post.slug }}/">{{ post.title }}</a></h2>
 		<p class="post-meta">
 			<time datetime="{{ post.date }}">{{ post.date_display }}</time>
 		</p>
 		{% if post.description %}
-		<p>{{ post.description }}</p>
+		<p class="description">{{ post.description }}</p>
 		{% endif %}
 		{% if post.tags %}
 		<p class="post-tags">
